@@ -1,5 +1,6 @@
 import pygame
 from game import Game
+
 pygame.init()
 
 # générer la fenêtre du jeu
@@ -27,8 +28,15 @@ while running:
     for projectile in game.player.all_projectiles:
         projectile.move()
 
+    # récupérer les monstres du jeu
+    for monster in game.all_monsters:
+        monster.forward()
+
     # appliquer l'ensemble des images du groupe de projectiles
     game.player.all_projectiles.draw(screen)
+
+    # appliquer l'ensemble des images du groupe de monstres
+    game.all_monsters.draw(screen)
 
     # verifier la direction du joueur
     if game.pressed.get(pygame.K_d) and game.player.rect.x + game.player.rect.width < screen.get_width():
