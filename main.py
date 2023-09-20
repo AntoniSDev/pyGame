@@ -24,6 +24,9 @@ while running:
     # appliquer l'image du player
     screen.blit(game.player.image, game.player.rect)
 
+    # actualiser la barre de vie du player
+    game.player.update_health_bar(screen)
+
     # récupérer les projectiles du joueur
     for projectile in game.player.all_projectiles:
         projectile.move()
@@ -31,6 +34,7 @@ while running:
     # récupérer les monstres du jeu
     for monster in game.all_monsters:
         monster.forward()
+        monster.update_health_bar(screen)
 
     # appliquer l'ensemble des images du groupe de projectiles
     game.player.all_projectiles.draw(screen)
@@ -53,13 +57,13 @@ while running:
             running = False
             pygame.quit()
 
-        # detecter si un joueur lache une touche du clavier
+        # détecter si un joueur lâche une touche du clavier
         elif event.type == pygame.KEYDOWN:
             game.pressed[event.key] = True
 
-            # detecter si la touche espace est enfoncée
-            if event.key == pygame.K_SPACE:
-                game.player.launch_projectile()
+        # détecter si le clic gauche de la souris est enfoncé
+        elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+            game.player.launch_projectile()
 
         elif event.type == pygame.KEYUP:
             game.pressed[event.key] = False
