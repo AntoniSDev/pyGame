@@ -1,6 +1,8 @@
-import pygame
 from player import Player
 from monster import Monster
+from comet_event import CometFallEvent
+import pygame
+
 
 
 # créer la classe jeu
@@ -13,6 +15,8 @@ class Game:
         self.all_players = pygame.sprite.Group()
         self.player = Player(self)
         self.all_players.add(self.player)
+        # générer l'event
+        self.comet_event = CometFallEvent()
         # groupe de monstre
         self.all_monsters = pygame.sprite.Group()
         self.pressed = {}
@@ -36,6 +40,9 @@ class Game:
         # actualiser la barre de vie du player
         self.player.update_health_bar(screen)
 
+        # actualiser la barre d'event
+        self.comet_event.update_bar(screen)
+
         # récupérer les projectiles du joueur
         for projectile in self.player.all_projectiles:
             projectile.move()
@@ -50,6 +57,9 @@ class Game:
 
         # appliquer l'ensemble des images du groupe de monstres
         self.all_monsters.draw(screen)
+
+        # appliquer l'ensemble des images du groupe de comet
+        self.comet_event.all_comets.draw(screen)
 
         # verifier la direction du joueur
         if self.pressed.get(pygame.K_d) and self.player.rect.x + self.player.rect.width < screen.get_width():
